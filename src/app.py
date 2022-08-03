@@ -2,8 +2,8 @@ from flask import Flask, render_template, request
 import cv2
 from keras.models import load_model
 import numpy as np
-from tensorflow.keras.applications import ResNet50
-from tensorflow.keras.optimizers import Adam
+from keras.applications import ResNet50
+from keras.optimizers import Adam
 from keras.layers import Dense, Flatten,Input, Convolution2D, Dropout, LSTM, TimeDistributed, Embedding, Bidirectional, Activation, RepeatVector,Concatenate
 from keras.models import Sequential, Model
 from keras.utils import np_utils
@@ -46,30 +46,30 @@ image_model.add(Dense(embedding_size, input_shape=(2048,), activation='relu'))
 image_model.add(RepeatVector(max_len))
 
 #load the trained model to classify sign
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.models import Model
-from tensorflow.keras.applications.inception_v3 import InceptionV3, preprocess_input
+# from tensorflow.keras.models import load_model
+# from tensorflow.keras.preprocessing.sequence import pad_sequences
+# from tensorflow.keras.models import Model
+# from tensorflow.keras.applications.inception_v3 import InceptionV3, preprocess_input
 from pickle import dump, load
-from tensorflow.keras.preprocessing.image import load_img, img_to_array
+# from tensorflow.keras.preprocessing.image import load_img, img_to_array
 
-base_model = InceptionV3(weights = 'inception_v3_weights_tf_dim_ordering_tf_kernels.h5')
-vgg_model = Model(base_model.input, base_model.layers[-2].output)
+# base_model = InceptionV3(weights = 'inception_v3_weights_tf_dim_ordering_tf_kernels.h5')
+# vgg_model = Model(base_model.input, base_model.layers[-2].output)
 
-def preprocess_img(img_path):
-    #inception v3 excepts img in 299*299
-    img = load_img(img_path, target_size = (299, 299))
-    x = img_to_array(img)
-    # Add one more dimension
-    x = np.expand_dims(x, axis = 0)
-    x = preprocess_input(x)
-    return x
+# def preprocess_img(img_path):
+#     #inception v3 excepts img in 299*299
+#     img = load_img(img_path, target_size = (299, 299))
+#     x = img_to_array(img)
+#     # Add one more dimension
+#     x = np.expand_dims(x, axis = 0)
+#     x = preprocess_input(x)
+#     return x
 
-def encode(image):
-    image = preprocess_img(image)
-    vec = vgg_model.predict(image)
-    vec = np.reshape(vec, (vec.shape[1]))
-    return vec
+# def encode(image):
+#     image = preprocess_img(image)
+#     vec = vgg_model.predict(image)
+#     vec = np.reshape(vec, (vec.shape[1]))
+#     return vec
 
 
 pickle_in = open("wordtoix.pkl", "rb")
